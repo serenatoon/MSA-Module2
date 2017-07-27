@@ -5,15 +5,13 @@
              x:Class="Module2.MainPage"
              Title="StackLayout Demo">
     <ContentPage.Content>
-        <StackLayout Spacing="0" x:Name="layout">
-            <Button Text="StackLayout" VerticalOptions="Start" Clicked="OnButtonClicked"
-        HorizontalOptions="FillAndExpand" />
-            <BoxView Color="#FFF724" VerticalOptions="FillAndExpand"
-        HorizontalOptions="FillAndExpand" />
-            <BoxView Color="#FF001F" VerticalOptions="FillAndExpand"
-  HorizontalOptions="FillAndExpand" />
-            <BoxView HeightRequest="75" Color="#1491CC" VerticalOptions="End"
-  HorizontalOptions="FillAndExpand" />
+        <StackLayout Margin="20" Orientation="Vertical">
+            <Button x:Name="myButton" Text="Taker photo" Clicked="Button_Clicked" />
+            <StackLayout Orientation="Horizontal">
+                <Label x:Name="TagLabel" />
+                <Label x:Name="PredictionLabel"/>
+            </StackLayout>
+            <Image x:Name="image"/>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>
