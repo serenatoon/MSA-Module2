@@ -85,7 +85,7 @@ namespace Tabs
 
                     double max = responseModel.Predictions.Max(m => m.Probability);
 
-                    TagLabel.Text = (max >= 0.5) ? "Chicken" : "Not chicken";
+                    TagLabel.Text = (max >= 0.5) ? "Is a chicken" : "Not a chicken";
                 }
 
                 //Get rid of file once we have finished using it
