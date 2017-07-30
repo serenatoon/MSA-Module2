@@ -43,5 +43,10 @@ namespace Tabs
         {
             return await this.isChickenTable.ToListAsync();
         }
+
+        public async Task PostChickenInformation(IsChickenModel isChickenModel)
+        {
+            await this.isChickenTable.InsertAsync(isChickenModel);
+        }
     }
 }

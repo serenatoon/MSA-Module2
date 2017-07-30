@@ -10,6 +10,7 @@ using Plugin.Media;
 using Plugin.Media.Abstractions;
 using Tabs.Model;
 using Xamarin.Forms;
+using Plugin.Geolocator;
 
 namespace Tabs
 {
@@ -46,8 +47,26 @@ namespace Tabs
             });
 
             TagLabel.Text = "";
-
+            await postLocationAsync(); // post location 
             await MakePredictionRequest(file);
+        }
+
+        async Task postLocationAsync()
+        {
+
+            var locator = CrossGeolocator.Current;
+            locator.DesiredAccuracy = 50;
+
+            var position = await locator.GetPositionAsync(TimeSpan.FromSeconds(10)); // convert from int to timespan 
+
+            IsChickenModel model = new IsChickenModel()
+            {
+                Longitude = (float)position.Longitude,
+                Latitude = (float)position.Latitude
+
+            };
+
+            await AzureManager.AzureManagerInstance.PostChickenInformation(model);
         }
 
         static byte[] GetImageAsByteArray(MediaFile file)
