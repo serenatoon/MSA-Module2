@@ -17,7 +17,7 @@ namespace Tabs
 
         private AzureManager()
         {
-            this.client = new MobileServiceClient("MOBILE_APP_URL");
+            this.client = new MobileServiceClient("http://ischicken.azurewebsites.net/");
             this.isChickenTable = this.client.GetTable<IsChickenModel>();
         }
 
