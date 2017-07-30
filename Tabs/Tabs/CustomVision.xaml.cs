@@ -57,7 +57,7 @@ namespace Tabs
             var locator = CrossGeolocator.Current;
             locator.DesiredAccuracy = 50;
 
-            var position = await locator.GetPositionAsync(TimeSpan.FromSeconds(10)); // convert from int to timespan 
+            var position = await locator.GetPositionAsync(TimeSpan.FromSeconds(10)); // convert from int to timespan, '1000' doesn't seem to work 
 
             IsChickenModel model = new IsChickenModel()
             {
@@ -104,7 +104,7 @@ namespace Tabs
 
                     double max = responseModel.Predictions.Max(m => m.Probability);
 
-                    TagLabel.Text = (max >= 0.5) ? "Is a chicken" : "Not a chicken";
+                    TagLabel.Text = (max >= 0.5) ? "Is a chicken!" : "Not a chicken!";
                 }
 
                 //Get rid of file once we have finished using it
