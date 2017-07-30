@@ -57,7 +57,7 @@ namespace Tabs
             var locator = CrossGeolocator.Current;
             locator.DesiredAccuracy = 50;
 
-            var position = await locator.GetPositionAsync(TimeSpan.FromSeconds(10)); // convert from int to timespan 
+            var position = await locator.GetPositionAsync(TimeSpan.FromSeconds(10)); // convert from int to timespan, 10000 doesn't seem to work 
 
             IsChickenModel model = new IsChickenModel()
             {
