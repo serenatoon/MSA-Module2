@@ -12,6 +12,7 @@ using Plugin.Media.Abstractions;
 using Tabs.Model;
 using Xamarin.Forms;
 using Plugin.Geolocator;
+using System.Globalization;
 
 namespace Tabs
 {
@@ -63,7 +64,9 @@ namespace Tabs
             IsChickenModel model = new IsChickenModel()
             {
                 Longitude = (float)position.Longitude,
-                Latitude = (float)position.Latitude
+                Latitude = (float)position.Latitude,
+                Timestamp = DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm",
+                                       CultureInfo.InvariantCulture)
 
             };
 
@@ -102,15 +105,9 @@ namespace Tabs
                     var responseString = await response.Content.ReadAsStringAsync();
 
                     EvaluationModel responseModel = JsonConvert.DeserializeObject<EvaluationModel>(responseString);
-                    
-                    double max = responseModel.Predictions.Max(m => m.Probability);
-                    //string type = responseModel.Predictions.Max()
-
-                    //TagLabel.Text = (max >= 0.5) ? "Is a chicken!" : "Not a chicken!";
-                    //TagLabel.Text = "It's a" responseModel.Predictions.Max
 
                     TagLabel.Text = "";
-                    string type = "Cannot determine what that is!"; // to print what the photo is of
+                    string type = ""; // to print what the photo is of
                     foreach (var prediction in responseModel.Predictions)
                     {
                         TagLabel.Text += "It is " + Math.Round(prediction.Probability * 100, 2) + "% likely to be a " + prediction.Tag + "\n"; // print probability of it being a chicken or a chick
@@ -122,7 +119,15 @@ namespace Tabs
                             type = prediction.Tag; 
                         }
                     }
-                    TagLabel.Text += "\n Looks like it's a " + type + "!";
+
+                    if (type == "")
+                    {
+                        TagLabel.Text += "\n Cannot determine what that is! \n";
+                    }
+                    else
+                    {
+                        TagLabel.Text += "\n Looks like it's a " + type + "!";
+                    }
                 }
 
                 //Get rid of file once we have finished using it

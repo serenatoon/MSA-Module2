@@ -15,5 +15,8 @@ namespace Tabs
 
         [JsonProperty(PropertyName = "Latitude")]
         public float Latitude { get; set; }
+
+        [JsonProperty(PropertyName = "Timestamp")]
+        public string Timestamp { get; set; }
     }
 }
