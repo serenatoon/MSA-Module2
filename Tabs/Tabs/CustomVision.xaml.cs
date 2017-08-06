@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics.Contracts;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
@@ -46,7 +47,7 @@ namespace Tabs
                 return file.GetStream();
             });
 
-            TagLabel.Text = "";
+            TagLabel.Text = "Analysing.......";
             await postLocationAsync(); // post location 
             await MakePredictionRequest(file);
         }
@@ -101,10 +102,27 @@ namespace Tabs
                     var responseString = await response.Content.ReadAsStringAsync();
 
                     EvaluationModel responseModel = JsonConvert.DeserializeObject<EvaluationModel>(responseString);
-
+                    
                     double max = responseModel.Predictions.Max(m => m.Probability);
+                    //string type = responseModel.Predictions.Max()
 
-                    TagLabel.Text = (max >= 0.5) ? "Is a chicken!" : "Not a chicken!";
+                    //TagLabel.Text = (max >= 0.5) ? "Is a chicken!" : "Not a chicken!";
+                    //TagLabel.Text = "It's a" responseModel.Predictions.Max
+
+                    TagLabel.Text = "";
+                    string type = "Cannot determine what that is!"; // to print what the photo is of
+                    foreach (var prediction in responseModel.Predictions)
+                    {
+                        TagLabel.Text += "It is " + Math.Round(prediction.Probability * 100, 2) + "% likely to be a " + prediction.Tag + "\n"; // print probability of it being a chicken or a chick
+
+                        // determine if it is a chicken or a chick 
+                        // will overwrite the default "cannot determine what that is" if exceeds threshold (0.5)
+                        if (prediction.Probability > 0.5)
+                        {
+                            type = prediction.Tag; 
+                        }
+                    }
+                    TagLabel.Text += "\n Looks like it's a " + type + "!";
                 }
 
                 //Get rid of file once we have finished using it
